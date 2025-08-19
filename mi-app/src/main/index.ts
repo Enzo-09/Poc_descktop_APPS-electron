@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, session } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -16,13 +16,23 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: true,
+      contextIsolation: true,
+      nodeIntegration: false,
+      webSecurity: true,
     }
   })
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
+
+  // Cerrar/impedir DevTools en producción
+  if (!is.dev) {
+    mainWindow.webContents.on('devtools-opened', () => {
+      mainWindow.webContents.closeDevTools()
+    })
+  }
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
@@ -59,7 +69,34 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // Denegar permisos del sistema por defecto
+  session.defaultSession.setPermissionRequestHandler((_wc, _perm, callback) => callback(false))
 
+  // CSP por cabecera (más estricto en prod, permite HMR en dev)
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self'",
+      // Mantener 'unsafe-inline' en styles para no romper estilos inline de React
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data:",
+      `connect-src 'self'${is.dev ? ' ws://localhost:*' : ''}`,
+      "font-src 'self' data:",
+      "object-src 'none'",
+      "base-uri 'none'",
+      "frame-ancestors 'none'",
+      "worker-src 'none'",
+    ].join('; ')
+
+    const responseHeaders = {
+      ...(details.responseHeaders || {}),
+      'Content-Security-Policy': [csp]
+    } as Record<string, string | string[]>
+
+    callback({ responseHeaders })
+  })
+
+  // Registrar handlers IPC de notas y métricas
   registerIpcHandlers()//registra los canales IPC
 
   createWindow() //crea la ventana principal

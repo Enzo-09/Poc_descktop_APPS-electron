@@ -1,15 +1,27 @@
+<!-- mi-app/src/renderer/index.html -->
 <!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Electron</title>
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- CSP restrictiva: ajusta connect-src para dev/prod -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        font-src 'self';
+        connect-src 'self' http://localhost:5173 ws://localhost:5173;
+        object-src 'none';
+        base-uri 'self';
+        frame-ancestors 'none';
+      "
     />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PoC</title>
   </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
