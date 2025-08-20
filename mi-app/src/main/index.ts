@@ -15,7 +15,7 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false, // Cambiar a false para que funcione contextBridge
+      sandbox: true, // Sandbox activado
       contextIsolation: true,
       nodeIntegration: false,
       webSecurity: true
@@ -36,6 +36,21 @@ function createWindow(): void {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
+  })
+
+  // Bloquear navegación fuera de la app y abrir enlaces externos en el navegador
+  mainWindow.webContents.on('will-navigate', (event, navigationUrl) => {
+    try {
+      const url = new URL(navigationUrl)
+      // Permitimos solo esquemas file: y about:blank
+      if (url.protocol !== 'file:' && url.protocol !== 'about:') {
+        event.preventDefault()
+        shell.openExternal(navigationUrl)
+      }
+    } catch {
+      // Si la URL es inválida, la bloqueamos por seguridad
+      event.preventDefault()
+    }
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -65,30 +80,45 @@ app.whenReady().then(() => {
   // Denegar permisos del sistema por defecto
   session.defaultSession.setPermissionRequestHandler((_wc, _perm, callback) => callback(false))
 
-  // CSP por cabecera - TEMPORALMENTE DESACTIVADO PARA DESARROLLO
-  /*
+  // CSP por cabecera: activo. En desarrollo permitimos el dev server y WS; en producción es estricto
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    const csp = [
-      "default-src 'self'",
-      "script-src 'self'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data:",
-      `connect-src 'self'${is.dev ? ' ws://localhost:*' : ''}`,
-      "font-src 'self' data:",
-      "object-src 'none'",
-      "base-uri 'none'",
-      "frame-ancestors 'none'",
-      "worker-src 'none'",
-    ].join('; ')
+    const devServer = process.env['ELECTRON_RENDERER_URL']
+    const devOrigin = devServer ? new URL(devServer).origin : ''
+
+    const csp = is.dev
+      ? [
+          `default-src 'self' ${devOrigin}`,
+          `script-src 'self' 'unsafe-eval' ${devOrigin}`,
+          `style-src 'self' 'unsafe-inline' ${devOrigin}`,
+          `img-src 'self' data: blob: file: ${devOrigin}`,
+          `font-src 'self' data: ${devOrigin}`,
+          `connect-src 'self' ws://localhost:* ws://127.0.0.1:* ${devOrigin}`,
+          "object-src 'none'",
+          "base-uri 'none'",
+          "frame-ancestors 'none'",
+          "worker-src 'self' blob:",
+        ].join('; ')
+      : [
+          "default-src 'self'",
+          "script-src 'self'",
+          "style-src 'self' 'unsafe-inline'",
+          "img-src 'self' data: blob: file:",
+          "font-src 'self' data:",
+          "connect-src 'self'",
+          "object-src 'none'",
+          "base-uri 'none'",
+          "frame-ancestors 'none'",
+          "worker-src 'none'",
+        ].join('; ')
 
     const responseHeaders = {
       ...(details.responseHeaders || {}),
-      'Content-Security-Policy': [csp]
+      'Content-Security-Policy': [csp],
+      'X-Content-Type-Options': ['nosniff']
     } as Record<string, string | string[]>
 
     callback({ responseHeaders })
   })
-  */
 
   // Registrar handlers IPC de notas y métricas
   registerIpcHandlers()
