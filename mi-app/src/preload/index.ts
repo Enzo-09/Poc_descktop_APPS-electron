@@ -10,6 +10,7 @@ type Channels =
   | 'notes:seed'
   | 'notes:metrics:footprint'
   | 'notes:metrics:memory'
+  | 'notes:benchmark'
 
 function invoke<T = any>(channel: Channels, ...args: any[]): Promise<T> {
   return ipcRenderer.invoke(channel, ...args)
@@ -26,7 +27,8 @@ contextBridge.exposeInMainWorld('api', {
     delete: (id: string) => invoke('notes:delete', id),
     seed: (count: number) => invoke('notes:seed', count),
     footprint: () => invoke('notes:metrics:footprint'),
-    memory: () => invoke('notes:metrics:memory')
+    memory: () => invoke('notes:metrics:memory'),
+    benchmark: (count: number) => invoke('notes:benchmark', count)
   }
 })
 

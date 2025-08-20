@@ -18,7 +18,7 @@ function createWindow(): void {
       sandbox: false, // Cambiar a false para que funcione contextBridge
       contextIsolation: true,
       nodeIntegration: false,
-      webSecurity: true,
+      webSecurity: true
     }
   })
 

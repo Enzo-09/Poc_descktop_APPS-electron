@@ -1,12 +1,5 @@
 import { ipcMain } from 'electron'
-import {
-  listNotes,
-  getNote,
-  createNote,
-  updateNote,
-  deleteNoteById,
-  seedNotes
-} from './notesStore'
+import { listNotes, getNote, createNote, updateNote, deleteNoteById, seedNotes } from './notesStore'
 import { measure, footprint, memoryUsage } from './metrics'
 
 function ok<T>(data: T, ms?: number) {

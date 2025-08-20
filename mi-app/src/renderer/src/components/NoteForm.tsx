@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Note } from "../App";
+import React, { useState, useEffect } from 'react'
+import { Note } from '../App'
 
 interface NoteFormProps {
-  addNote: (title: string, content: string) => void;
-  editingNote: Note | null; // Usar el tipo Note completo
+  addNote: (title: string, content: string) => void
+  editingNote: Note | null // Usar el tipo Note completo
 }
 
 const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
 
   useEffect(() => {
     if (editingNote) {
-      setTitle(editingNote.title);
-      setContent(editingNote.content);
+      setTitle(editingNote.title)
+      setContent(editingNote.content)
     } else {
-      setTitle("");
-      setContent("");
+      setTitle('')
+      setContent('')
     }
-  }, [editingNote]);
+  }, [editingNote])
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (title.trim() && content.trim()) {
-      addNote(title.trim(), content.trim());
+      addNote(title.trim(), content.trim())
       if (!editingNote) {
         // Solo limpiar campos si estamos creando (no editando)
-        setTitle("");
-        setContent("");
+        setTitle('')
+        setContent('')
       }
     }
-  };
+  }
 
   const handleCancel = () => {
-    setTitle("");
-    setContent("");
-  };
+    setTitle('')
+    setContent('')
+  }
 
   return (
     <form onSubmit={handleSubmit} className="note-form">
@@ -55,7 +55,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {
       ></textarea>
       <div className="form-actions">
         <button type="submit" disabled={!title.trim() || !content.trim()}>
-          {editingNote ? "✅ Actualizar Nota" : "➕ Crear Nota"}
+          {editingNote ? '✅ Actualizar Nota' : '➕ Crear Nota'}
         </button>
         {editingNote && (
           <button type="button" onClick={handleCancel} className="cancel-btn">
@@ -64,7 +64,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {
         )}
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default NoteForm;
+export default NoteForm

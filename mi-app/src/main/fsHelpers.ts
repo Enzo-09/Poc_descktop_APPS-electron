@@ -1,7 +1,6 @@
 //TODA ESTA PARTE SE ENCARGA DE LA ASIGNACION DE LOS DATOS QUE ENTRAN O EXISTEN EN ARCHIVOS JSON
 //Y LOS ALMACENA DENTRO DE LA CARPETA mininotes/notes EN appData
 
-
 import { promises as fs } from 'fs'
 import { app } from 'electron'
 import { join, basename } from 'path'
@@ -29,9 +28,7 @@ export async function ensureDir(): Promise<void> {
 export async function listJsonFiles(): Promise<string[]> {
   await ensureDir()
   const entries = await fs.readdir(getDataDir(), { withFileTypes: true })
-  return entries
-    .filter((e) => e.isFile() && e.name.endsWith('.json'))
-    .map((e) => e.name)
+  return entries.filter((e) => e.isFile() && e.name.endsWith('.json')).map((e) => e.name)
 }
 //agarra todos los json creados, en la carpeta json, llamara a ensureDir() (garantiza que la carpeta exista).
 // Luego usa fs.readdir para leer todos los archivos.
@@ -72,7 +69,6 @@ export async function writeJson(fileName: string, data: unknown): Promise<void> 
 // Genera un archivo temporal (.tmp con UUID).
 // Escribe primero en ese archivo temporal.
 // Después hace un rename al archivo final → si se corta la luz, nunca queda un archivo corrupto.
-
 
 export async function deleteFile(fileName: string): Promise<boolean> {
   if (!fileName.endsWith('.json')) return false

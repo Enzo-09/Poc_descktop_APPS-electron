@@ -21,6 +21,11 @@
     "build:linux": "electron-vite build && electron-builder --linux",
     "test": "vitest run",
     "test:ui": "vitest",
+    "test:verbose": "vitest run --reporter=verbose",
+    "test:detailed": "node run-tests.js",
+    "test:report": "vitest run --reporter=verbose && echo 'Ver reporte completo en docs/test-report.md'",
+    "test:json": "vitest run --reporter=json > test-results.json",
+    "test:watch": "vitest --reporter=verbose",
     "coverage": "c8 vitest run"
   },
   "dependencies": {

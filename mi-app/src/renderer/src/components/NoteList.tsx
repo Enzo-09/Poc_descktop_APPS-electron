@@ -1,20 +1,16 @@
-import React from "react";
-import { Note } from "../App";
+import React from 'react'
+import { Note } from '../App'
 
 interface NoteListProps {
-  notes: Note[];
-  onDeleteNote: (id: string) => void; // Cambiado a string
-  onEditNote: (note: Note) => void;
+  notes: Note[]
+  onDeleteNote: (id: string) => void // Cambiado a string
+  onEditNote: (note: Note) => void
 }
 
-const NoteList: React.FC<NoteListProps> = ({
-  notes,
-  onDeleteNote,
-  onEditNote,
-}) => {
+const NoteList: React.FC<NoteListProps> = ({ notes, onDeleteNote, onEditNote }) => {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
-  };
+    return new Date(dateString).toLocaleString()
+  }
 
   return (
     <div className="note-list">
@@ -35,10 +31,7 @@ const NoteList: React.FC<NoteListProps> = ({
             </div>
             <div className="note-actions">
               <button onClick={() => onEditNote(note)}>✏️ Editar</button>
-              <button 
-                onClick={() => onDeleteNote(note.id)}
-                className="delete-btn"
-              >
+              <button onClick={() => onDeleteNote(note.id)} className="delete-btn">
                 🗑️ Eliminar
               </button>
             </div>
@@ -46,7 +39,7 @@ const NoteList: React.FC<NoteListProps> = ({
         ))
       )}
     </div>
-  );
-};
+  )
+}
 
-export default NoteList;
+export default NoteList
