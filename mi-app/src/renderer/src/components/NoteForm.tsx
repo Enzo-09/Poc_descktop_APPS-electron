@@ -55,11 +55,11 @@ const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {
       ></textarea>
       <div className="form-actions">
         <button type="submit" disabled={!title.trim() || !content.trim()}>
-          {editingNote ? '✅ Actualizar Nota' : '➕ Crear Nota'}
+          {editingNote ? 'Actualizar Nota' : 'Crear Nota'}
         </button>
         {editingNote && (
           <button type="button" onClick={handleCancel} className="cancel-btn">
-            ❌ Cancelar
+            Cancelar
           </button>
         )}
       </div>

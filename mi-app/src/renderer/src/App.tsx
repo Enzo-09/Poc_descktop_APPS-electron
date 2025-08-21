@@ -26,6 +26,7 @@ declare global {
         seed: (count: number) => Promise<ApiResponse<Note[]>>
       }
     }
+    preloadReady: boolean
   }
 }
 
@@ -45,6 +46,9 @@ function App(): React.JSX.Element {
 
   // Cargar notas al iniciar la app
   useEffect(() => {
+    // Verificar si window.api está disponible
+    console.log('[App] window.api disponible:', !!window.api)
+    console.log('[App] window.api.notes disponible:', !!window.api?.notes)
     loadNotes()
   }, [])
 
@@ -52,15 +56,26 @@ function App(): React.JSX.Element {
     setLoading(true)
     setError(null)
     try {
+      console.log('[App] Intentando cargar notas...')
+      
+      if (!window.api || !window.api.notes) {
+        throw new Error('API no disponible - preload script no cargado')
+      }
+      
       const response = await window.api.notes.list()
+      console.log('[App] Respuesta del backend:', response)
+      
       if (response.ok) {
         setNotes(response.data || [])
+        console.log('[App] Notas cargadas:', response.data?.length || 0)
       } else {
         setError(response.error || 'Error desconocido')
+        console.error('[App] Error del backend:', response.error)
       }
     } catch (err) {
-      setError('Error conectando con el backend')
-      console.error('Error loading notes:', err)
+      const errorMsg = err instanceof Error ? err.message : 'Error conectando con el backend'
+      setError(errorMsg)
+      console.error('[App] Error cargando notas:', err)
     } finally {
       setLoading(false)
     }
@@ -140,7 +155,7 @@ function App(): React.JSX.Element {
       {/* Botón para recargar notas */}
       <div className="actions">
         <button onClick={loadNotes} disabled={loading}>
-          🔄 Recargar Notas
+          Recargar Notas
         </button>
         <span className="notes-count">
           {notes.length} nota{notes.length !== 1 ? 's' : ''}

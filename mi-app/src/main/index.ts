@@ -15,7 +15,7 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: true, // Sandbox activado
+      sandbox: false, // Desactivar sandbox temporalmente para depuración
       contextIsolation: true,
       nodeIntegration: false,
       webSecurity: true
@@ -24,6 +24,10 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    // Abrir DevTools en desarrollo para depurar
+    if (is.dev) {
+      mainWindow.webContents.openDevTools()
+    }
   })
 
   // Cerrar/impedir DevTools en producción
@@ -88,7 +92,7 @@ app.whenReady().then(() => {
     const csp = is.dev
       ? [
           `default-src 'self' ${devOrigin}`,
-          `script-src 'self' 'unsafe-eval' ${devOrigin}`,
+          `script-src 'self' 'unsafe-eval' 'unsafe-inline' ${devOrigin}`,
           `style-src 'self' 'unsafe-inline' ${devOrigin}`,
           `img-src 'self' data: blob: file: ${devOrigin}`,
           `font-src 'self' data: ${devOrigin}`,

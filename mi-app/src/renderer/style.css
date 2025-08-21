@@ -1,9 +1,8 @@
-/* Fondo general */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #111);
+  background: linear-gradient(-45deg, #ffffff, #ffffff, #ffffff, #fafc7c);
   background-size: 400% 400%;
   animation: gradientMove 15s ease infinite;
   color: #f1f1f1;
@@ -14,26 +13,23 @@ body {
   padding: 40px;
 }
 
-/* Contenedor principal */
 .app-container {
   width: 100%;
   max-width: 960px;
   text-align: center;
 }
 
-/* Título */
 h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #ffdd57;
+  color: #000000;
   text-shadow: 0px 0px 10px rgba(255, 221, 87, 0.7);
 }
 
-/* Formulario */
+
 .note-form {
   margin: 0 auto 32px auto;
   width: 350px;
-  /* tu ancho fijo */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -41,8 +37,8 @@ h1 {
 
 .note-form input,
 .note-form textarea {
-  background: #2a2a2a;
-  border: none;
+  background: #fff7f7;
+  border: 1px solid #070707;
   padding: 10px;
   border-radius: 5px;
   color: #f1f1f1;
@@ -52,22 +48,24 @@ h1 {
 .note-form textarea,
 .note-form button {
   width: 100%;
-  /* ← clave para que no se “achiquen” */
   box-sizing: border-box;
-  /* incluye padding/borde en el cálculo del ancho */
   display: block;
+    color: #000;
 }
 
 .note-form textarea {
   min-height: 80px;
   resize: none;
+  color: #000;
 }
 
 .note-form button {
-  background: #ffd54f;
+  background: #ffffff;
   border: none;
   padding: 10px;
   border-radius: 5px;
+  border: 1px solid #000;
+  color: #000;
   cursor: pointer;
   font-weight: bold;
   transition: background 0.2s;
@@ -77,51 +75,99 @@ h1 {
   background: #ffca28;
 }
 
-/* Lista de notas */
-/* Grilla: SIEMPRE 3 columnas */
 .note-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  /* 3 fijas */
   gap: 16px;
   margin-top: 16px;
-  /* espacio extra bajo el form */
   padding: 16px;
-  /* acolchado para que no corte la primera fila */
-
   max-height: calc(100vh - 320px);
-  /* ajustá 320 según alto del título+form */
   overflow-y: auto;
   scrollbar-gutter: stable;
-  /* que el scrollbar no tape botones */
   padding-right: 12px;
-  /* margen a la derecha del scrollbar */
 }
 
 .note-item {
-  width: auto;
-  min-height: 180px;
-  background: #1e1e1e;
+  background: #ffffff;
   border: 1px solid #333;
   padding: 15px;
   border-radius: 10px;
-  color: #f1f1f1;
+  color: #000000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  min-height: 280px;
+  max-height: 280px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.note-item.expanded {
+  max-height: none;
+  overflow: visible;
 }
 
 .note-item:hover {
   transform: translateY(-4px);
 }
 
+.note-content-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.note-content-wrapper h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #f3c716;
+  flex-shrink: 0;
+}
+
+.note-content {
+  flex-grow: 1;
+  color: #020202;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  overflow: hidden;
+}
+
+.view-more-btn {
+  background: #ffffff;
+  border: 1px solid #000;
+  color: #000;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  align-self: flex-start;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+
+.view-more-btn:hover {
+  background: #ffdd57;
+}
+
+.note-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
 /* Nota individual */
 .note {
-  background: #222;
+  background: #ffffff;
+  color: #000;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #ccc;
   transition: 0.3s;
 }
 
@@ -134,19 +180,21 @@ h1 {
   margin-top: 0;
   font-size: 1.2rem;
   margin-bottom: 8px;
-  color: #ffdd57;
+  color: #f3c716;
 }
 
 .note p {
   flex-grow: 1;
-  /* 🔥 empuja los botones hacia abajo */
-  color: #ccc;
+  color: #000000;
   margin-bottom: 10px;
   white-space: pre-wrap;
-  /* 🔥 conserva saltos de línea */
+  overflow-wrap: anywhere;      
+  word-break: break-word;      
+  hyphens: auto;                
+  max-width: 100%;
 }
 
-/* Botones de acción */
+
 .note-actions {
   display: flex;
   justify-content: space-between;
@@ -157,7 +205,7 @@ h1 {
   flex: 1;
   margin: 0 5px;
   padding: 8px;
-  border: none;
+  border: 1px solid #000;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
@@ -165,8 +213,8 @@ h1 {
 }
 
 .note-actions button:first-child {
-  background: #4cafef;
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
 }
 
 .note-actions button:first-child:hover {
@@ -174,12 +222,15 @@ h1 {
 }
 
 .note-actions button:last-child {
-  background: #e74c3c;
+  background: #fc9f95;
   color: #fff;
 }
 
 .note-actions button:last-child:hover {
   background: #c0392b;
+}
+.note-item, .note {
+  overflow: hidden;
 }
 
 @keyframes gradientMove {
@@ -196,7 +247,6 @@ h1 {
   }
 }
 
-/* Nuevos estilos para la funcionalidad conectada */
 .loading {
   background: rgba(255, 221, 87, 0.2);
   color: #ffdd57;
@@ -234,6 +284,24 @@ h1 {
   margin: 20px 0;
   padding: 0 20px;
 }
+.actions button {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.actions button:hover {
+  background: #dbd831;
+  color: #000000;
+  border: 2px solid #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
 
 .notes-count {
   color: #888;
@@ -260,17 +328,20 @@ h1 {
 }
 
 .form-actions {
+  border: 3px solid #0000;
   display: flex;
+  color: #000;
   gap: 10px;
   justify-content: flex-end;
 }
 
 .cancel-btn {
-  background: #666 !important;
+  color: #ffffff;
+  background: #e96767 !important;
 }
 
 .cancel-btn:hover {
-  background: #777 !important;
+  background: #8a0202 !important;
 }
 
 .delete-btn {

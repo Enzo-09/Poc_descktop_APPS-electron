@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 import { listJsonFiles, readJson, writeJson, deleteFile } from './fsHelpers'
-
+// eslint-disable-next-line no-console
 console.log('[notesStore] módulo cargado')
 
 export interface Note {
