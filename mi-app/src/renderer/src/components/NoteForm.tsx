@@ -3,7 +3,7 @@ import { Note } from '../App'
 
 interface NoteFormProps {
   addNote: (title: string, content: string) => void
-  editingNote: Note | null // Usar el tipo Note completo
+  editingNote: Note | null 
 }
 
 const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {
@@ -25,18 +25,15 @@ const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {
     if (title.trim() && content.trim()) {
       addNote(title.trim(), content.trim())
       if (!editingNote) {
-        // Solo limpiar campos si estamos creando (no editando)
         setTitle('')
         setContent('')
       }
     }
   }
-
   const handleCancel = () => {
     setTitle('')
     setContent('')
   }
-
   return (
     <form onSubmit={handleSubmit} className="note-form">
       <input

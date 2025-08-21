@@ -3,11 +3,10 @@ import { Note } from '../App'
 
 interface NoteListProps {
   notes: Note[]
-  onDeleteNote: (id: string) => void // Cambiado a string
+  onDeleteNote: (id: string) => void 
   onEditNote: (note: Note) => void
 }
-
-const MAX_CHARS_PREVIEW = 200 // caracteres antes de mostrar "Ver más"
+const MAX_CHARS_PREVIEW = 200
 
 const NoteList: React.FC<NoteListProps> = ({ notes, onDeleteNote, onEditNote }) => {
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
@@ -48,7 +47,6 @@ const NoteList: React.FC<NoteListProps> = ({ notes, onDeleteNote, onEditNote }) 
               <div className="note-content-wrapper">
                 <h3>{note.title}</h3>
                 <p className="note-content">{displayContent}</p>
-                
                 {needsClamp && (
                   <button
                     className="view-more-btn"

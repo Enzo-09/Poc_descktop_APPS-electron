@@ -13,8 +13,7 @@ vi.mock('electron', () => ({
 import * as helpers from '../fsHelpers'
 const { getDataDir, ensureDir, writeJson, readJson, listJsonFiles, deleteFile, dirSizeBytes } =
   helpers
-// Depuración: mostrar claves exportadas
-// eslint-disable-next-line no-console
+
 console.log('fsHelpers exports:', Object.keys(helpers))
 
 beforeEach(async () => {
@@ -24,8 +23,7 @@ beforeEach(async () => {
 
 describe('fsHelpers', () => {
   it('crea directorio y escribe/lee json', async () => {
-    // Test que verifica la escritura y lectura de archivos JSON
-    // Propósito: Validar que los datos se escriben y leen correctamente del sistema de archivos
+
     const testStartTime = performance.now()
 
     await writeJson('a.json', { x: 1 })
@@ -39,8 +37,6 @@ describe('fsHelpers', () => {
   })
 
   it('lista archivos json', async () => {
-    // Test que verifica el listado de archivos JSON en el directorio
-    // Propósito: Comprobar que listJsonFiles retorna todos los archivos .json existentes
     const testStartTime = performance.now()
 
     await writeJson('a.json', { a: 1 })
@@ -55,8 +51,6 @@ describe('fsHelpers', () => {
   })
 
   it('borra archivo', async () => {
-    // Test que verifica la eliminación de archivos del sistema
-    // Propósito: Validar que deleteFile elimina correctamente un archivo y retorna true
     const testStartTime = performance.now()
 
     await writeJson('a.json', {})
@@ -72,8 +66,6 @@ describe('fsHelpers', () => {
   })
 
   it('calcula tamaño', async () => {
-    // Test que verifica el cálculo del tamaño total del directorio
-    // Propósito: Comprobar que dirSizeBytes calcula correctamente el espacio ocupado
     const testStartTime = performance.now()
 
     await writeJson('a.json', { a: 'x'.repeat(50) })

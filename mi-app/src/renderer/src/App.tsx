@@ -3,14 +3,12 @@ import NoteForm from './components/NoteForm'
 import NoteList from './components/NoteList'
 import '../style.css'
 
-// Tipos para la respuesta de la API
 interface ApiResponse<T> {
   ok: boolean
   data?: T
   error?: string
 }
 
-// Tipos globales para window.api
 declare global {
   interface Window {
     api: {
@@ -31,7 +29,7 @@ declare global {
 }
 
 export interface Note {
-  id: string // Cambiado a string para UUID
+  id: string
   title: string
   content: string
   createdAt: string
@@ -44,9 +42,7 @@ function App(): React.JSX.Element {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Cargar notas al iniciar la app
   useEffect(() => {
-    // Verificar si window.api está disponible
     console.log('[App] window.api disponible:', !!window.api)
     console.log('[App] window.api.notes disponible:', !!window.api?.notes)
     loadNotes()
@@ -57,14 +53,11 @@ function App(): React.JSX.Element {
     setError(null)
     try {
       console.log('[App] Intentando cargar notas...')
-      
       if (!window.api || !window.api.notes) {
         throw new Error('API no disponible - preload script no cargado')
       }
-      
       const response = await window.api.notes.list()
       console.log('[App] Respuesta del backend:', response)
-      
       if (response.ok) {
         setNotes(response.data || [])
         console.log('[App] Notas cargadas:', response.data?.length || 0)
@@ -86,7 +79,6 @@ function App(): React.JSX.Element {
     setError(null)
     try {
       if (editingNote) {
-        // Modo actualizar
         const response = await window.api.notes.update(editingNote.id, { title, content })
         if (response.ok) {
           setNotes(notes.map((note) => (note.id === editingNote.id ? response.data! : note)))
@@ -95,7 +87,6 @@ function App(): React.JSX.Element {
           setError(response.error || 'Error actualizando la nota')
         }
       } else {
-        // Modo crear
         const response = await window.api.notes.create(title, content)
         if (response.ok) {
           setNotes([...notes, response.data!])
@@ -141,18 +132,14 @@ function App(): React.JSX.Element {
     <div className="app-container">
       <h1>Mini Notes</h1>
 
-      {/* Indicador de carga */}
       {loading && <div className="loading">Guardando...</div>}
 
-      {/* Mensajes de error */}
       {error && (
         <div className="error-message">
           <span>{error}</span>
           <button onClick={clearError}>×</button>
         </div>
       )}
-
-      {/* Botón para recargar notas */}
       <div className="actions">
         <button onClick={loadNotes} disabled={loading}>
           Recargar Notas

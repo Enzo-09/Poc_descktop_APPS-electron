@@ -26,6 +26,9 @@
     "test:report": "vitest run --reporter=verbose && echo 'Ver reporte completo en docs/test-report.md'",
     "test:json": "vitest run --reporter=json > test-results.json",
     "test:watch": "vitest --reporter=verbose",
+    "test:performance": "vitest run src/main/__tests__/performance.test.ts",
+    "performance:report": "npx tsx performance-runner.ts",
+    "performance:full": "npm run test:performance && npm run performance:report",
     "coverage": "c8 vitest run"
   },
   "dependencies": {
