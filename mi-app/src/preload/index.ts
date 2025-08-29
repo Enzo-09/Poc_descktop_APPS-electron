@@ -5,7 +5,8 @@ const api = {
   notes: {
     list: () => ipcRenderer.invoke('notes:list'),
     get: (id: string) => ipcRenderer.invoke('notes:get', id),
-    create: (title: string, content: string) => ipcRenderer.invoke('notes:create', { title, content }),
+    create: (title: string, content: string) =>
+      ipcRenderer.invoke('notes:create', { title, content }),
     update: (id: string, patch: { title?: string; content?: string }) =>
       ipcRenderer.invoke('notes:update', id, patch),
     delete: (id: string) => ipcRenderer.invoke('notes:delete', id),

@@ -21,8 +21,8 @@ describe('metrics', () => {
     expect(r.ms).toBeGreaterThanOrEqual(0)
 
     const testEndTime = performance.now()
-    console.log(`⏱️ Tiempo del test measure: ${(testEndTime - testStartTime).toFixed(2)}ms`)
-    console.log(`📊 Función medida tardó: ${r.ms.toFixed(2)}ms`)
+    console.log(`Tiempo del test measure: ${(testEndTime - testStartTime).toFixed(2)}ms`)
+    console.log(`Función medida tardó: ${r.ms.toFixed(2)}ms`)
   })
 
   it('footprint retorna dataBytes', async () => {
@@ -34,8 +34,8 @@ describe('metrics', () => {
     expect(fp.dataBytes).toBeGreaterThanOrEqual(0)
 
     const testEndTime = performance.now()
-    console.log(`⏱️ Tiempo para calcular footprint: ${(testEndTime - testStartTime).toFixed(2)}ms`)
-    console.log(`💾 Footprint actual: ${fp.dataBytes} bytes`)
+    console.log(`Tiempo para calcular footprint: ${(testEndTime - testStartTime).toFixed(2)}ms`)
+    console.log(`Footprint actual: ${fp.dataBytes} bytes`)
   })
 
   it('memoryUsage retorna campos', () => {
@@ -47,7 +47,7 @@ describe('metrics', () => {
     expect(m.rss).toBeGreaterThan(0)
 
     const testEndTime = performance.now()
-    console.log(`⏱️ Tiempo para obtener memoria: ${(testEndTime - testStartTime).toFixed(2)}ms`)
-    console.log(`🧠 Memoria RSS: ${(m.rss / 1024 / 1024).toFixed(2)} MB`)
+    console.log(`Tiempo para obtener memoria: ${(testEndTime - testStartTime).toFixed(2)}ms`)
+    console.log(`Memoria RSS: ${(m.rss / 1024 / 1024).toFixed(2)} MB`)
   })
 })

@@ -3,7 +3,7 @@ import { Note } from '../App'
 
 interface NoteFormProps {
   addNote: (title: string, content: string) => void
-  editingNote: Note | null 
+  editingNote: Note | null
 }
 
 const NoteForm: React.FC<NoteFormProps> = ({ addNote, editingNote }) => {

@@ -3,7 +3,7 @@ import { Note } from '../App'
 
 interface NoteListProps {
   notes: Note[]
-  onDeleteNote: (id: string) => void 
+  onDeleteNote: (id: string) => void
   onEditNote: (note: Note) => void
 }
 const MAX_CHARS_PREVIEW = 200

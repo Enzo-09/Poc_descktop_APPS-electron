@@ -100,7 +100,7 @@ app.whenReady().then(() => {
           "object-src 'none'",
           "base-uri 'none'",
           "frame-ancestors 'none'",
-          "worker-src 'self' blob:",
+          "worker-src 'self' blob:"
         ].join('; ')
       : [
           "default-src 'self'",
@@ -112,7 +112,7 @@ app.whenReady().then(() => {
           "object-src 'none'",
           "base-uri 'none'",
           "frame-ancestors 'none'",
-          "worker-src 'none'",
+          "worker-src 'none'"
         ].join('; ')
 
     const responseHeaders = {

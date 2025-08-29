@@ -44,7 +44,7 @@ describe('notesStore', () => {
     expect(list.length).toBe(2)
 
     const endTime = performance.now()
-    console.log(`⏱️ Tiempo para crear 2 notas y listarlas: ${(endTime - startTime).toFixed(2)}ms`)
+    console.log(`Tiempo para crear 2 notas y listarlas: ${(endTime - startTime).toFixed(2)}ms`)
   })
 
   it('actualiza nota', async () => {
@@ -57,7 +57,7 @@ describe('notesStore', () => {
     expect(upd?.content).toBe('Mod')
 
     const endTime = performance.now()
-    console.log(`⏱️ Tiempo para crear y actualizar nota: ${(endTime - startTime).toFixed(2)}ms`)
+    console.log(`Tiempo para crear y actualizar nota: ${(endTime - startTime).toFixed(2)}ms`)
   })
 
   it('borra nota', async () => {
@@ -72,7 +72,7 @@ describe('notesStore', () => {
     expect(again).toBeNull()
 
     const endTime = performance.now()
-    console.log(`⏱️ Tiempo para crear y eliminar nota: ${(endTime - startTime).toFixed(2)}ms`)
+    console.log(`Tiempo para crear y eliminar nota: ${(endTime - startTime).toFixed(2)}ms`)
   })
 
   it('seed limita y crea', async () => {
@@ -86,13 +86,13 @@ describe('notesStore', () => {
     expect(list.length).toBe(5)
 
     const endTime = performance.now()
-    console.log(`⏱️ Tiempo para crear 5 notas: ${(endTime - startTime).toFixed(2)}ms`)
+    console.log(`Tiempo para crear 5 notas: ${(endTime - startTime).toFixed(2)}ms`)
   })
 
   it('test de rendimiento: crea 100 notas, lista y elimina', async () => {
     // Test de rendimiento que crea 100 notas, las lista y las elimina una por una
     // Propósito: Medir el rendimiento del sistema con un volumen mayor de notas
-    console.log('🚀 Iniciando test de rendimiento con 100 notas...')
+    console.log('Iniciando test de rendimiento con 100 notas...')
 
     // Fase 1: Crear 100 notas
     const createStartTime = performance.now()
@@ -100,7 +100,7 @@ describe('notesStore', () => {
     const createEndTime = performance.now()
 
     expect(created).toBe(100)
-    console.log(`✅ Creadas ${created} notas en ${(createEndTime - createStartTime).toFixed(2)}ms`)
+    console.log(`Creadas ${created} notas en ${(createEndTime - createStartTime).toFixed(2)}ms`)
 
     // Fase 2: Listar todas las notas
     const listStartTime = performance.now()
@@ -108,7 +108,7 @@ describe('notesStore', () => {
     const listEndTime = performance.now()
 
     expect(list.length).toBe(100)
-    console.log(`📋 Listadas ${list.length} notas en ${(listEndTime - listStartTime).toFixed(2)}ms`)
+    console.log(`Listadas ${list.length} notas en ${(listEndTime - listStartTime).toFixed(2)}ms`)
 
     // Fase 3: Eliminar todas las notas una por una
     const deleteStartTime = performance.now()
@@ -121,7 +121,7 @@ describe('notesStore', () => {
 
     expect(deletedCount).toBe(100)
     console.log(
-      `🗑️ Eliminadas ${deletedCount} notas en ${(deleteEndTime - deleteStartTime).toFixed(2)}ms`
+      `Eliminadas ${deletedCount} notas en ${(deleteEndTime - deleteStartTime).toFixed(2)}ms`
     )
 
     // Verificar que no quedan notas
@@ -129,7 +129,7 @@ describe('notesStore', () => {
     expect(finalList.length).toBe(0)
 
     const totalTime = deleteEndTime - createStartTime
-    console.log(`🏁 Tiempo total del test: ${totalTime.toFixed(2)}ms`)
+    console.log(`Tiempo total del test: ${totalTime.toFixed(2)}ms`)
 
     // Crear reporte de rendimiento
     const report = {
@@ -142,6 +142,6 @@ describe('notesStore', () => {
       avgDeletePerNote: (deleteEndTime - deleteStartTime) / 100
     }
 
-    console.log('📊 Reporte de rendimiento:', JSON.stringify(report, null, 2))
+    console.log('Reporte de rendimiento:', JSON.stringify(report, null, 2))
   })
 })

@@ -23,7 +23,6 @@ beforeEach(async () => {
 
 describe('fsHelpers', () => {
   it('crea directorio y escribe/lee json', async () => {
-
     const testStartTime = performance.now()
 
     await writeJson('a.json', { x: 1 })
@@ -46,7 +45,7 @@ describe('fsHelpers', () => {
 
     const testEndTime = performance.now()
     console.log(
-      `⏱️ Tiempo para crear y listar 2 archivos JSON: ${(testEndTime - testStartTime).toFixed(2)}ms`
+      `Tiempo para crear y listar 2 archivos JSON: ${(testEndTime - testStartTime).toFixed(2)}ms`
     )
   })
 
@@ -61,7 +60,7 @@ describe('fsHelpers', () => {
 
     const testEndTime = performance.now()
     console.log(
-      `⏱️ Tiempo para crear y eliminar archivo: ${(testEndTime - testStartTime).toFixed(2)}ms`
+      `Tiempo para crear y eliminar archivo: ${(testEndTime - testStartTime).toFixed(2)}ms`
     )
   })
 
@@ -74,8 +73,8 @@ describe('fsHelpers', () => {
 
     const testEndTime = performance.now()
     console.log(
-      `⏱️ Tiempo para calcular tamaño del directorio: ${(testEndTime - testStartTime).toFixed(2)}ms`
+      `Tiempo para calcular tamaño del directorio: ${(testEndTime - testStartTime).toFixed(2)}ms`
     )
-    console.log(`📏 Tamaño del directorio: ${size} bytes`)
+    console.log(`Tamaño del directorio: ${size} bytes`)
   })
 })
